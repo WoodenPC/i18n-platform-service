@@ -1,0 +1,11 @@
+{
+  "name": "i18n-platform-service",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "packageManager": "yarn@1.22.1",
+  "workspaces": [
+    "packages/*"
+  ]
+}
