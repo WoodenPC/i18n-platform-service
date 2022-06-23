@@ -2,8 +2,8 @@
   "name": "platform-backend",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node index.js",
-    "dev": "ts-node src/index.ts"
+    "start": "node server.js",
+    "dev": "ts-node src/server.ts"
   },
   "dependencies": {
     "fastify": "4.1.0",
