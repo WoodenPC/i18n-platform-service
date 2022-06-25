@@ -2,11 +2,13 @@ import fastify from 'fastify'
 import { PrismaClient } from '@prisma/client'
 import { fastifyAwilixPlugin, diContainer } from '@fastify/awilix';
 import { asClass, Lifetime } from 'awilix';
+import { routes } from './routes'
 
 const prisma = new PrismaClient()
 
 const server = fastify()
 server.register(fastifyAwilixPlugin, { disposeOnClose: true });
+server.register(routes, { prefix: '/api' });
 diContainer.register({
   prismaClient: asClass(PrismaClient, {
     lifetime: Lifetime.SINGLETON,

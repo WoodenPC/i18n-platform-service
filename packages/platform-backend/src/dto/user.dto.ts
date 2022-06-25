@@ -13,6 +13,6 @@ export class UserDto {
     }
 
     getEmail() {
-        return this.getEmail;
+        return this.userEmail;
     }
 }
