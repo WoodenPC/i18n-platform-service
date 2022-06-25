@@ -1,0 +1,64 @@
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Team {
+    id BigInt @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    teamName String
+    teamProjects Project[]
+    teamUsers User[]
+}
+
+
+model Project {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  team Team @relation(fields: [teamId], references: [id])
+  teamId BigInt
+}
+
+model User {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userEmail String  @unique
+  userName String
+  userPassword String
+  team Team? @relation(fields: [teamId], references: [id])
+  teamId BigInt
+}
+
+model Language {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  languageName String
+  translation LanguageTranslation?
+}
+
+model Translation {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  keyName String
+  languageTranslations LanguageTranslation[]
+}
+
+
+model LanguageTranslation {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  translationValue String
+  translation Translation @relation(fields: [translationId], references: [id])
+  translationId BigInt
+  language Language @relation(fields: [languageId], references: [id])
+  languageId BigInt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
