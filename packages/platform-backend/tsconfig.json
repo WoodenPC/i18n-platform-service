@@ -34,7 +34,7 @@
       "@controllers/*": ["src/controllers/*"],
       "@dto/*": ["src/dto/*"],
       "@services/*": ["src/services/*"],
-      "@shared/*": ["src/shared/*"],
+      "@lib/*": ["src/lib/*"],
       "@routes/*": ["src/routes/*"],
       "@di/*": ["src/di/*"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */

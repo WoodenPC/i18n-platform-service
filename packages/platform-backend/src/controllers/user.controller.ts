@@ -1,19 +1,21 @@
-import { diContainer } from "@fastify/awilix";
-import { PrismaClient } from "@prisma/client";
+import { TokenService } from "@services/token.service";
 import { UserService } from "@services/user.service";
-import { asClass, Lifetime } from "awilix";
 
 export class UserController {
-    private prismaClient: PrismaClient;
     private userService: UserService;
+    private tokenService: TokenService;
 
-    constructor({ prismaClient, userService }: { prismaClient: PrismaClient, userService: UserService }) {
-        this.prismaClient = prismaClient;
+    constructor({ userService, tokenService }: { userService: UserService, tokenService: TokenService }) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     async signUp(userName: string, userEmail: string, userPassword: string) {
-       return await this.userService.singUp(userName, userEmail, userPassword);
+       const userDto = await this.userService.singUp(userName, userEmail, userPassword);
+       const { accessToken, refreshToken } = await this.tokenService.generateToken(userDto);
+
+       await this.tokenService.saveToken(userDto, refreshToken);
+       return { accessToken, refreshToken };
     }
 
     async signIn() {
@@ -24,13 +26,3 @@ export class UserController {
 
     }
 }
-
-// diContainer.register({
-//     // userController: asClass(UserController),
-//     userController: asClass(UserController, {
-//         lifetime: Lifetime.SINGLETON
-//     }),
-//     // prismaClient: asClass(PrismaClient, {
-//     //     lifetime: Lifetime.SINGLETON
-//     // })
-// })

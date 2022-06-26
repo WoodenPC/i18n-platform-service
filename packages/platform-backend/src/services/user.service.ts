@@ -1,9 +1,7 @@
+import { UserDto } from "@dto/user.dto";
+import { hashPassword } from "@lib/crypto";
 import { PrismaClient } from "@prisma/client";
-import crypto from 'crypto';
-import { promisify } from "util";
-
-const randomBytesAsync = promisify(crypto.randomBytes);
-const pbkdf2Async = promisify(crypto.pbkdf2);
+import { FastifyInstance } from "fastify";
 
 export class UserService {
     private prismaClient: PrismaClient;
@@ -11,31 +9,30 @@ export class UserService {
     constructor({ prismaClient }: { prismaClient: PrismaClient }) {
         this.prismaClient = prismaClient;
     }
+
     async singUp(userName: string, userEmail: string, userPassword: string) {
-        // const candidate = await this.prismaClient.user.findUnique({
-        //     where: {
-        //         userEmail_userName: {
-        //             userEmail,
-        //             userName
-        //         }
-        //     }
-        // })
+        const candidate = await this.prismaClient.user.findUnique({
+            where: {
+                userEmail_userName: {
+                    userEmail,
+                    userName
+                }
+            }
+        })
 
-        // if (candidate) {
-        //     throw new Error(`Пользователь с такими данными существует ${userName}-${userEmail}`);
-        // }
+        if (candidate) {
+            throw new Error(`Пользователь с такими данными существует ${userName}-${userEmail}`);
+        }
 
-        const salt = crypto.randomBytes(16).toString('hex');
-        const hash = (await pbkdf2Async(userPassword, salt, 1000, 64, 'sha512')).toString('hex');
+        const hashedPassword =  await hashPassword(userPassword);
+        const userModel = await this.prismaClient.user.create({
+            data: {
+                userEmail,
+                userName,
+                userPassword: hashedPassword,
+            }
+        });
 
-        console.log('hash', hash);
-
-        // const user = await this.prismaClient.user.create({
-        //     data: {
-        //         userEmail,
-        //         userName,
-        //         userPassword: hash
-        //     }
-        // })
+        return new UserDto(userModel);
     }
 }

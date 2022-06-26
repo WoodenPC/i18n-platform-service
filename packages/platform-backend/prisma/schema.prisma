@@ -33,7 +33,7 @@ model User {
   @@unique([userEmail, userName])
 
   team Team? @relation(fields: [teamId], references: [id])
-  teamId BigInt
+  teamId BigInt?
   authToken AuthToken?
 }
 
