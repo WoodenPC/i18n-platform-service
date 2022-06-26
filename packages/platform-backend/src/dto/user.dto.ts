@@ -3,9 +3,9 @@ import { User } from "@prisma/client";
 export class UserDto {
     private userName: string;
     private userEmail: string;
-    constructor(user: User) {
-        this.userEmail = user.userEmail;
-        this.userName = user.userName;
+    constructor(userModel: User) {
+        this.userEmail = userModel.userEmail;
+        this.userName = userModel.userName;
     }
 
     getName() {

@@ -26,11 +26,22 @@ model Project {
 model User {
   id BigInt @id @default(autoincrement())
   createdAt DateTime @default(now())
-  userEmail String  @unique
+  userEmail String
   userName String
   userPassword String
+
+  @@unique([userEmail, userName])
+
   team Team? @relation(fields: [teamId], references: [id])
   teamId BigInt
+  authToken AuthToken?
+}
+
+model AuthToken {
+  id BigInt @id @default(autoincrement())
+  refreshToken String
+  user User @relation(fields: [userId], references: [id])
+  userId BigInt
 }
 
 model Language {

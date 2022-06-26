@@ -4,7 +4,7 @@ export class TeamDto {
     private teamName: string;
     // private teamUsers: User[];
 
-    constructor(team: Team) {
-        this.teamName = team.teamName;
+    constructor(teamModel: Team) {
+        this.teamName = teamModel.teamName;
     }
 }
