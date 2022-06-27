@@ -2,10 +2,16 @@ import { UserDto } from "@dto/user.dto";
 import { PrismaClient } from "@prisma/client";
 import { JWT } from '@fastify/jwt';
 import { FastifyInstance } from "fastify";
+import { BadRequestError } from "@shared/exceptions";
 
 type CustomFastifyJWT = {
     access: JWT;
     refresh: JWT
+}
+
+type TokenPayload = {
+    id: string;
+    userEmail: string;
 }
 
 export class TokenService {
@@ -17,8 +23,9 @@ export class TokenService {
     }
 
     async generateToken(userDto: UserDto) {
-        const accessToken = this.jwt.access.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail(), userName: userDto.getName() }, { expiresIn: '30m',  });
-        const refreshToken = this.jwt.refresh.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail(), userName: userDto.getName() }, { expiresIn: '30d' });
+        console.log(userDto.getId().toString());
+        const accessToken = this.jwt.access.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30m',  });
+        const refreshToken = this.jwt.refresh.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30d' });
 
         return {
             accessToken,
@@ -49,6 +56,18 @@ export class TokenService {
             data: {
                 refreshToken,
                 userId: userDto.getId()
+            }
+        })
+    }
+
+    async deleteToken(token: string) {
+        const data = this.jwt.refresh.decode<TokenPayload>(token);
+        if (!data) {
+            throw new BadRequestError('Ошибка декодирования токена');
+        }
+        return await this.prismaClient.authToken.delete({
+            where: {
+                userId: BigInt(data.id)
             }
         })
     }

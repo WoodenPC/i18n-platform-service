@@ -26,11 +26,8 @@ model Project {
 model User {
   id BigInt @id @default(autoincrement())
   createdAt DateTime @default(now())
-  userEmail String
-  userName String
+  userEmail String @unique
   userPassword String
-
-  @@unique([userEmail, userName])
 
   team Team? @relation(fields: [teamId], references: [id])
   teamId BigInt?

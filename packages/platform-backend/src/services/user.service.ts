@@ -1,6 +1,7 @@
 import { UserDto } from "@dto/user.dto";
-import { hashPassword } from "@lib/crypto";
+import { checkPassword, hashPassword } from "@lib/crypto";
 import { PrismaClient } from "@prisma/client";
+import { BadRequestError } from "@shared/exceptions";
 import { FastifyInstance } from "fastify";
 
 export class UserService {
@@ -10,29 +11,45 @@ export class UserService {
         this.prismaClient = prismaClient;
     }
 
-    async singUp(userName: string, userEmail: string, userPassword: string) {
+    async createUser(userEmail: string, userPassword: string) {
         const candidate = await this.prismaClient.user.findUnique({
             where: {
-                userEmail_userName: {
-                    userEmail,
-                    userName
-                }
+                userEmail
             }
-        })
+        });
 
         if (candidate) {
-            throw new Error(`Пользователь с такими данными существует ${userName}-${userEmail}`);
+            throw new Error(`Пользователь с такими данными существует ${userEmail}`);
         }
 
         const hashedPassword =  await hashPassword(userPassword);
         const userModel = await this.prismaClient.user.create({
             data: {
                 userEmail,
-                userName,
                 userPassword: hashedPassword,
             }
         });
 
         return new UserDto(userModel);
+    }
+
+    async getUser( userEmail: string, userPassword: string) {
+        const user = await this.prismaClient.user.findUnique({
+            where: {
+                userEmail
+            }
+        });
+
+        if (!user) {
+            throw new BadRequestError('Пользователь не найден');
+        }
+
+        const isPassEqual = checkPassword(userPassword, user.userPassword);
+
+        if (!isPassEqual) {
+            throw new BadRequestError('Некорректный пароль');
+        }
+
+        return new UserDto(user);
     }
 }

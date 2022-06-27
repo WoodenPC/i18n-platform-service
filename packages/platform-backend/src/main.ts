@@ -4,10 +4,11 @@ import { fastifyAwilixPlugin, diContainer } from '@fastify/awilix';
 import jwt from '@fastify/jwt';
 
 import { init } from '@di/init';
+import { patch } from '@config/patch';
 
 import { routes } from './routes';
 dotenv.config();
-
+patch();
 
 function startApp() {
   const server = fastify({ logger: true });
