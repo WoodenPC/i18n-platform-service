@@ -1,18 +1,23 @@
 import fastify from 'fastify'
 import dotenv from 'dotenv';
+import cookiePlugin from '@fastify/cookie';
 import { fastifyAwilixPlugin, diContainer } from '@fastify/awilix';
 import jwt from '@fastify/jwt';
+import authPlugin from '@fastify/auth';
 
 import { init } from '@di/init';
 import { patch } from '@config/patch';
 
 import { routes } from './routes';
+import { authOnly } from '@guards/authOnly';
 dotenv.config();
 patch();
 
 function startApp() {
   const server = fastify({ logger: true });
   init(server);
+  server.register(cookiePlugin);
+  // server.register(authPlugin);
   server.register(jwt, {
     namespace: 'access',
     jwtSign: 'accessSign',
@@ -23,7 +28,9 @@ function startApp() {
     namespace: 'refresh',
     jwtSign: 'refreshSign',
     secret: process.env.JWT_REFRESH_SECRET as string
-  })
+  });
+
+  server.decorate('authOnly', authOnly);
   
   server.register(fastifyAwilixPlugin, { disposeOnClose: true });
   server.register(routes, { prefix: '/api' });

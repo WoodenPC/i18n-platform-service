@@ -3,16 +3,8 @@ import { PrismaClient } from "@prisma/client";
 import { JWT } from '@fastify/jwt';
 import { FastifyInstance } from "fastify";
 import { BadRequestError } from "@shared/exceptions";
+import { CustomFastifyJWT, UserJWTPayload } from "@shared/types/jwt";
 
-type CustomFastifyJWT = {
-    access: JWT;
-    refresh: JWT
-}
-
-type TokenPayload = {
-    id: string;
-    userEmail: string;
-}
 
 export class TokenService {
     private jwt: CustomFastifyJWT;
@@ -61,13 +53,39 @@ export class TokenService {
     }
 
     async deleteToken(token: string) {
-        const data = this.jwt.refresh.decode<TokenPayload>(token);
+        const data = this.jwt.refresh.decode<UserJWTPayload>(token);
         if (!data) {
-            throw new BadRequestError('Ошибка декодирования токена');
+            throw new BadRequestError('Incorrect token');
         }
         return await this.prismaClient.authToken.delete({
             where: {
                 userId: BigInt(data.id)
+            }
+        })
+    }
+
+    validateAccessToken(token: string) {
+        try {
+            return this.jwt.access.verify<UserJWTPayload>(token);
+        } catch(e) {
+            console.error(e);
+            return null;
+        }
+    }
+
+    validateRefreshToken(token: string) {
+        try {
+            return this.jwt.refresh.verify<UserJWTPayload>(token);
+        } catch(e) {
+            console.error(e);
+            return null;
+        }
+    }
+
+    async findRefreshTokenInDb(userId: bigint) {
+        return this.prismaClient.authToken.findUnique({
+            where: {
+                userId
             }
         })
     }

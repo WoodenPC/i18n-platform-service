@@ -1,8 +1,8 @@
 import { FastifyInstance,FastifyPluginOptions , DoneFuncWithErrOrRes } from "fastify";
-import { userRoute } from "./user/user.route";
+import { authRoute } from "./auth/auth.route";
 
 export const routes = (fastify: FastifyInstance, opts: FastifyPluginOptions, next: (err?: Error) => void) => {
     // console.log('routes', fastify);
-    userRoute(fastify, opts);
+    authRoute(fastify, opts);
     next()
 }
