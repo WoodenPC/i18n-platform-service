@@ -3,7 +3,7 @@ import { AuthService } from "@services/auth.service";
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) => {
-    fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/signUp', async (req, res) => {
+    fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/auth/signUp', async (req, res) => {
         const { userEmail, userPassword } = req.body;
         const authService = req.diScope.resolve<AuthService>('authService');
         
@@ -12,7 +12,7 @@ export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) 
         return {user, refreshToken, accessToken};
     });
 
-    fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/signIn', async (req, res) => {
+    fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/auth/signIn', async (req, res) => {
         const { userEmail, userPassword } = req.body;
         const authService = req.diScope.resolve<AuthService>('authService');
         const { accessToken, refreshToken, user } = await authService.signIn(userEmail, userPassword);
@@ -20,14 +20,14 @@ export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) 
         return { accessToken, refreshToken, user };
     });
 
-    fastify.post('/logout', async (req, res) => {
+    fastify.post('/auth/logout', async (req, res) => {
         const refreshToken = req.cookies['refreshToken'];
         const authService = req.diScope.resolve<AuthService>('authService');
         await authService.logout(refreshToken);
         return res.send()
     });
 
-    fastify.get('/refreshToken', async (req, res) => {
+    fastify.get('/auth/refreshToken', async (req, res) => {
         const refreshToken = req.cookies['refreshToken'];
         const authService = req.diScope.resolve<AuthService>('authService');
         const refreshedData = await authService.refresh(refreshToken);
@@ -35,7 +35,7 @@ export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) 
         return res.send()
     });
 
-    fastify.get('/protectedRoute', { preHandler: [authOnly] }, (req) => {
+    fastify.get('/auth/protectedRoute', { preHandler: [authOnly] }, (req) => {
         return req.user;
     })
 }

@@ -1,9 +1,8 @@
 import fastify from 'fastify'
 import dotenv from 'dotenv';
 import cookiePlugin from '@fastify/cookie';
-import { fastifyAwilixPlugin, diContainer } from '@fastify/awilix';
+import { fastifyAwilixPlugin } from '@fastify/awilix';
 import jwt from '@fastify/jwt';
-import authPlugin from '@fastify/auth';
 
 import { init } from '@di/init';
 import { patch } from '@config/patch';
@@ -17,7 +16,9 @@ function startApp() {
   const server = fastify({ logger: true });
   init(server);
   server.register(cookiePlugin);
-  // server.register(authPlugin);
+
+  server.decorateRequest('user', null);
+
   server.register(jwt, {
     namespace: 'access',
     jwtSign: 'accessSign',
