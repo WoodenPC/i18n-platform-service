@@ -7,20 +7,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Team {
+model UsersGroup {
     id BigInt @id @default(autoincrement())
     createdAt DateTime @default(now())
-    teamName String
-    teamProjects Project[]
-    teamUsers User[]
+    groupName String
+    groupProjects Project[]
+    groupUsers User[]
 }
-
 
 model Project {
   id BigInt @id @default(autoincrement())
   createdAt DateTime @default(now())
-  team Team @relation(fields: [teamId], references: [id])
-  teamId BigInt
+  group UsersGroup @relation(fields: [groupId], references: [id])
+  groupId BigInt
 }
 
 model User {
@@ -29,8 +28,8 @@ model User {
   userEmail String @unique
   userPassword String
 
-  team Team? @relation(fields: [teamId], references: [id])
-  teamId BigInt?
+  group UsersGroup? @relation(fields: [groupId], references: [id])
+  groupId BigInt?
   authToken AuthToken?
 }
 
@@ -38,7 +37,7 @@ model AuthToken {
   id BigInt @id @default(autoincrement())
   refreshToken String
   user User @relation(fields: [userId], references: [id])
-  userId BigInt
+  userId BigInt @unique
 }
 
 model Language {
@@ -63,7 +62,7 @@ model LanguageTranslation {
   translation Translation @relation(fields: [translationId], references: [id])
   translationId BigInt
   language Language @relation(fields: [languageId], references: [id])
-  languageId BigInt
+  languageId BigInt @unique
 }
 
 enum Role {
