@@ -1,6 +1,6 @@
-import { User } from "@shared/api/types/user";
+import { User } from '@shared/api/types/user'
 
 export type UserStore = {
-    user: User | null;
-    isLoading: boolean;
+  user: User | null
+  isLoading: boolean
 }

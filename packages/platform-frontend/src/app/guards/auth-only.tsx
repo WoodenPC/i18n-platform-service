@@ -1,38 +1,36 @@
-import { userHooks } from '@entities/user';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { userHooks } from '@entities/user'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type AuthOnlyRouteProps = {
-    children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const AuthOnlyRoute = ({ children }: AuthOnlyRouteProps) => {
-    const { user, isLoading } = userHooks.useUser();
-    const navigate = useNavigate();
+  const { user, isLoading } = userHooks.useUser()
+  const navigate = useNavigate()
 
-    React.useEffect(() => {
-        if (!isLoading) {
-            if (!!user) {
-                navigate('/', {
-                    replace: true
-                });
-            } else {
-                navigate('/signIn', {
-                    replace: true
-                })
-            }
-        }
-    }, [user, isLoading])
-
-    if (isLoading) {
-        return 'Loading...';
+  React.useEffect(() => {
+    if (!isLoading) {
+      if (user) {
+        navigate('/', {
+          replace: true,
+        })
+      } else {
+        navigate('/signIn', {
+          replace: true,
+        })
+      }
     }
+  }, [user, isLoading])
 
-    if (!!user) {
-        return children;
-    }
+  if (isLoading) {
+    return 'Loading...'
+  }
 
-    return null;
+  if (user) {
+    return children
+  }
+
+  return null
 }
-

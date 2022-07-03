@@ -1,8 +1,3 @@
-import React from 'react';
+import React from 'react'
 
-
-export const ProfilePage = () => {
-    return <div>
-        Profile
-    </div>
-}
+export const ProfilePage = () => <div>Profile</div>

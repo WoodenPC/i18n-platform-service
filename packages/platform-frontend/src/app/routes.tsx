@@ -1,12 +1,8 @@
-export const renderRoute = () => {
+import React from 'react'
 
-}
+export const renderRoute = () => {}
 
-export const renderRoutes = () => {
-    
-}
+export const renderRoutes = () => {}
 
 // TODO: render routes from object
-export const APP_ROUTES = [
-    { path: '/', element: <div></div> }
-]
+export const APP_ROUTES = [{ path: '/', element: <div /> }]

@@ -1,51 +1,67 @@
-import { ApiClient } from "./api-client";
+import { ApiClient } from './api-client'
 
 export class AuthApi {
-    private static instance: AuthApi | null = null;
+  private static instance: AuthApi | null = null
 
-    static getInstance() {
-        if (!AuthApi.instance) {
-            AuthApi.instance = new AuthApi();
-        }
-
-        return AuthApi.instance;
+  static getInstance() {
+    if (!AuthApi.instance) {
+      AuthApi.instance = new AuthApi()
     }
 
+    return AuthApi.instance
+  }
 
-   async signIn({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
-        const apiClient = ApiClient.getInstance();
-        const res = await apiClient.fetch(`${ApiClient.API_URL}/auth/signIn`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userEmail,
-                userPassword
-            })
-        });
+  async signIn({
+    userEmail,
+    userPassword,
+  }: {
+    userEmail: string
+    userPassword: string
+  }) {
+    const apiClient = ApiClient.getInstance()
+    const res = await apiClient.fetch(`${ApiClient.API_URL}/auth/signIn`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userEmail,
+        userPassword,
+      }),
+    })
 
-        const data = await res.json();
-        apiClient.setBearerToken(data.accessToken);
+    const data = await res.json()
+    apiClient.setBearerToken(data.accessToken)
 
-        return data;
-    }
+    return data
+  }
 
-    async signUp({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
-        const res = await ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/signUp`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userEmail,
-                userPassword
-            })
-        });
+  async signUp({
+    userEmail,
+    userPassword,
+  }: {
+    userEmail: string
+    userPassword: string
+  }) {
+    const res = await ApiClient.getInstance().fetch(
+      `${ApiClient.API_URL}/auth/signUp`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          userEmail,
+          userPassword,
+        }),
+      }
+    )
 
-        return await res.json();
-    }
+    return await res.json()
+  }
 
-    async refresh() {
-        const res = await ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/refresh`, {
-            method: 'GET'
-        });
+  async refresh() {
+    const res = await ApiClient.getInstance().fetch(
+      `${ApiClient.API_URL}/auth/refresh`,
+      {
+        method: 'GET',
+      }
+    )
 
-        return await res.json();
-    }
-
+    return await res.json()
+  }
 }

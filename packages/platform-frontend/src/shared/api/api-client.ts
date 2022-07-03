@@ -1,50 +1,47 @@
 class ApiClient {
-    private static instance: ApiClient | null = null;
-    private headers: Record<string, string> = {};
+  private static instance: ApiClient | null = null
 
-    static API_URL:string = process.env.API_URL || 'http://localhost:8000/api';
+  private headers: Record<string, string> = {}
 
-    static getInstance() {
-        if (!ApiClient.instance) {
-            ApiClient.instance = new ApiClient();
-        }
+  static API_URL: string = process.env.API_URL || 'http://localhost:8000/api'
 
-        return ApiClient.instance;
+  static getInstance() {
+    if (!ApiClient.instance) {
+      ApiClient.instance = new ApiClient()
     }
 
-    setBearerToken(token: string) {
-        this.headers['Authorization'] = `Bearer ${token}`;
+    return ApiClient.instance
+  }
+
+  setBearerToken(token: string) {
+    this.headers.Authorization = `Bearer ${token}`
+  }
+
+  async fetch(endpoint: RequestInfo | URL, args?: RequestInit) {
+    const originalRes = await window.fetch(endpoint, {
+      ...(args || {}),
+      credentials: 'include',
+      headers: this.headers,
+    })
+
+    if (originalRes.status === 401) {
+      // interceptor for bearer refresh attempt
+      const authRes = await window.fetch(`${ApiClient.API_URL}/auth/refresh`, {
+        credentials: 'include',
+      })
+
+      const data = await authRes.json()
+      this.setBearerToken(data.token)
+
+      return await window.fetch(endpoint, {
+        ...(args || {}),
+        credentials: 'include',
+        headers: this.headers,
+      })
     }
 
-    async fetch(endpoint: RequestInfo | URL, args?: RequestInit) {
-        const originalRes = await window.fetch(endpoint, {
-            ...(args || {}),
-            credentials: 'include',
-            headers: this.headers
-        });
-
-        if (originalRes.status === 401) {
-            // interceptor for bearer refresh attempt
-            const authRes = await window.fetch(`${ApiClient.API_URL}/auth/refresh`, {
-                credentials: 'include'
-            });
-
-            const data = await authRes.json();
-            this.setBearerToken(data.token);
-
-            return await window.fetch(endpoint, {
-                ...(args || {}),
-                credentials: 'include',
-                headers: this.headers
-            });
-        }
-
-        return originalRes;
-    }
+    return originalRes
+  }
 }
 
-
-
-
-
-export { ApiClient };
+export { ApiClient }

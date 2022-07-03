@@ -1,9 +1,9 @@
-import { useEvent, useStore } from 'effector-react';
-import { $isLoading, signIn } from './model';
+import { useEvent, useStore } from 'effector-react'
+import { $isLoading, signIn } from './model'
 
 export const useSignIn = () => {
-    const isLoading = useStore($isLoading);
-    const signInFn = useEvent(signIn);
+  const isLoading = useStore($isLoading)
+  const signInFn = useEvent(signIn)
 
-    return { isLoading, signInFn };
+  return { isLoading, signInFn }
 }

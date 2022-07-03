@@ -1,3 +1,3 @@
 export const initApp = () => {
-    //TODO initiaize all effects
+  // TODO initiaize all effects
 }

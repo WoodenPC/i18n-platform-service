@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -17,14 +18,32 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint",
-        "plugin:import/recommended"
+        "prettier",
+        "import",
+        "@typescript-eslint"
     ],
     "rules": {
+        "prettier/prettier": "error",
+        "react/prop-types": "off",
         "linebreak-style": "off",
         "import/prefer-default-export": "off",
+        "no-return-await": "off",
         "react/jsx-filename-extension": "off",
-        "react/function-component-definition": "off"
+        "react/function-component-definition": "off",
+        "no-use-before-define": "off",
+        "class-methods-use-this": "off",
+        "no-undef": "warn",
+        "no-unused-vars": "warn",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+         ]
     },
     "settings": {
         "import/parsers": {
@@ -33,6 +52,10 @@
         "import/resolver": {
           "node": {
             "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          },
+          "typescript": {
+            "alwaysTryTypes": true,
+            "project": "."
           }
         }
       }

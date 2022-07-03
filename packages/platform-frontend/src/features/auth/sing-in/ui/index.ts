@@ -1,1 +1,1 @@
-export { SignInForm } from './sing-in-form';
+export { SignInForm } from './sing-in-form'
