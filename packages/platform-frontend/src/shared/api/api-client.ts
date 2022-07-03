@@ -16,7 +16,7 @@ class ApiClient {
         this.headers['Authorization'] = `Bearer ${token}`;
     }
 
-    async fetch(endpoint: string, args?: Record<string, any>) {
+    async fetch(endpoint: RequestInfo | URL, args?: RequestInit) {
         const originalRes = await window.fetch(endpoint, {
             ...(args || {}),
             credentials: 'include',

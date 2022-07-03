@@ -1,8 +1,13 @@
 import React from 'react';
+import { SignUpForm } from '@features/auth/sing-up';
+import { SplitCol, SplitLayout } from '@vkontakte/vkui';
+
 
 
 export const SignUpPage = () => {
-    return <div>
-        Sing Up
-    </div>
+    return (<SplitLayout>
+    <SplitCol>
+        <SignUpForm />
+    </SplitCol>
+</SplitLayout>)
 }

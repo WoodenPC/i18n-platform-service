@@ -1,7 +1,5 @@
 import { SplitLayout } from '@vkontakte/vkui';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-
 
 
 type AppLayoutProps = {
