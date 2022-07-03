@@ -12,30 +12,40 @@ export class AuthApi {
     }
 
 
-    signIn({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
-        return ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/signIn`, {
+   async signIn({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
+        const apiClient = ApiClient.getInstance();
+        const res = await apiClient.fetch(`${ApiClient.API_URL}/auth/signIn`, {
             method: 'POST',
             body: JSON.stringify({
                 userEmail,
                 userPassword
             })
         });
+
+        const data = await res.json();
+        apiClient.setBearerToken(data.accessToken);
+
+        return data;
     }
 
-    signUp({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
-        return ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/signUp`, {
+    async signUp({ userEmail, userPassword }: { userEmail: string, userPassword: string }) {
+        const res = await ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/signUp`, {
             method: 'POST',
             body: JSON.stringify({
                 userEmail,
                 userPassword
             })
         });
+
+        return await res.json();
     }
 
-    refresh() {
-        return ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/refresh`, {
+    async refresh() {
+        const res = await ApiClient.getInstance().fetch(`${ApiClient.API_URL}/auth/refresh`, {
             method: 'GET'
         });
+
+        return await res.json();
     }
 
 }

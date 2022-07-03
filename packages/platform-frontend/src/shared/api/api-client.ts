@@ -2,7 +2,7 @@ class ApiClient {
     private static instance: ApiClient | null = null;
     private headers: Record<string, string> = {};
 
-    static API_URL:string = 'localhost:8000/api';
+    static API_URL:string = process.env.API_URL || 'http://localhost:8000/api';
 
     static getInstance() {
         if (!ApiClient.instance) {

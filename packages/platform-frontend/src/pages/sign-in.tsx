@@ -1,13 +1,18 @@
 import React from 'react';
 import { SignInForm } from '@features/auth/sing-in';
-import { SplitCol, SplitLayout } from '@vkontakte/vkui';
+import { Panel, PanelHeader, SplitCol, SplitLayout } from '@vkontakte/vkui';
 
 
 
 export const SignInPage = () => {
     return (<SplitLayout>
         <SplitCol>
-            <SignInForm />
+            <Panel>
+                <PanelHeader>Войти</PanelHeader>
+            <div style={{ width: '400px', margin: 'auto' }}>
+                <SignInForm />
+            </div>
+            </Panel>
         </SplitCol>
     </SplitLayout>)
 }

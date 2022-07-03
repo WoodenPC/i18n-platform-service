@@ -14,5 +14,8 @@ export default defineConfig({
       '@pages':  path.resolve(__dirname, "./src/pages"),
       '@shared': path.resolve(__dirname, "./src/shared"),
     }
+  },
+  define: {
+    'process.env': process.env
   }
 })

@@ -1,1 +1,1 @@
-export * from './model';
+export * as signUpModel from './model';

@@ -1,6 +1,9 @@
-import { User } from '@shared/api/types/user';
 import { createDomain } from 'effector';
+import { UserStore } from './types';
 
 const userDomain = createDomain('entities/user');
 
-export const $user = userDomain.createStore<User | null>(null);
+export const $user = userDomain.createStore<UserStore>({
+    isLoading: false,
+    user: null
+});
