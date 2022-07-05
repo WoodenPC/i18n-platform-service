@@ -4,6 +4,8 @@ import { App } from '@app/app';
 import '@vkontakte/vkui/dist/vkui.css';
 import { AdaptivityProvider, ConfigProvider } from '@vkontakte/vkui';
 
+//test comment
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // @ts-ignore
   <ConfigProvider>
