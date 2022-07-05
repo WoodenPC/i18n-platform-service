@@ -3,6 +3,7 @@
         "browser": true,
         "es2021": true
     },
+    "root": true,
     "extends": [
         "plugin:react/recommended",
         "airbnb",
@@ -14,7 +15,7 @@
             "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
     },
     "plugins": [
         "react",
@@ -50,12 +51,9 @@
             "@typescript-eslint/parser": [".ts", ".tsx"]
           },
         "import/resolver": {
-          "node": {
-            "extensions": [".js", ".jsx", ".ts", ".tsx"]
-          },
+ 
           "typescript": {
             "alwaysTryTypes": true,
-            "project": "."
           }
         }
       }

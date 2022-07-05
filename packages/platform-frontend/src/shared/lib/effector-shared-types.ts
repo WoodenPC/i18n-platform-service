@@ -1,1 +1,1 @@
-export type LoadingStatus = 'pending' | 'done' | 'fail'
+export type LoadingStatus = 'pending' | 'done' | 'fail';

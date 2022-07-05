@@ -1,2 +1,2 @@
-export * as signInModel from './model'
-export * as hooks from './hooks'
+export * as signInModel from './model';
+export * as hooks from './hooks';

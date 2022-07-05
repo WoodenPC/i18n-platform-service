@@ -1,18 +1,22 @@
-import React from 'react'
-import { AppRoot } from '@vkontakte/vkui'
-import { AppRouter } from './router'
-import { initApp } from './init/init-app'
+import React from 'react';
+import { AppRoot, ScreenSpinner } from '@vkontakte/vkui';
+import { AppRouter } from './router';
+import { initApp } from './init/init-app';
 
 const App = () => {
+  const [appInitialized, setIsAppInitalized] = React.useState(false);
   React.useEffect(() => {
-    initApp()
-  }, [])
+    initApp().finally(() => {
+      setIsAppInitalized(true);
+    });
+  }, []);
 
   return (
     <AppRoot>
-      <AppRouter />
+      {!appInitialized && <ScreenSpinner />}
+      {appInitialized && <AppRouter />}
     </AppRoot>
-  )
-}
+  );
+};
 
-export { App }
+export { App };

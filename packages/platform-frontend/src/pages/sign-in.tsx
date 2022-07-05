@@ -1,6 +1,6 @@
-import React from 'react'
-import { SignInForm } from '@features/auth/sing-in'
-import { Panel, PanelHeader, SplitCol, SplitLayout } from '@vkontakte/vkui'
+import React from 'react';
+import { SignInForm } from '@features/auth/sing-in';
+import { Panel, PanelHeader, SplitCol, SplitLayout } from '@vkontakte/vkui';
 
 export const SignInPage = () => (
   <SplitLayout>
@@ -13,4 +13,4 @@ export const SignInPage = () => (
       </Panel>
     </SplitCol>
   </SplitLayout>
-)
+);

@@ -1,44 +1,44 @@
-import { ApiClient } from './api-client'
+import { ApiClient } from './api-client';
 
 export class AuthApi {
-  private static instance: AuthApi | null = null
+  private static instance: AuthApi | null = null;
 
   static getInstance() {
     if (!AuthApi.instance) {
-      AuthApi.instance = new AuthApi()
+      AuthApi.instance = new AuthApi();
     }
 
-    return AuthApi.instance
+    return AuthApi.instance;
   }
 
   async signIn({
     userEmail,
     userPassword,
   }: {
-    userEmail: string
-    userPassword: string
+    userEmail: string;
+    userPassword: string;
   }) {
-    const apiClient = ApiClient.getInstance()
+    const apiClient = ApiClient.getInstance();
     const res = await apiClient.fetch(`${ApiClient.API_URL}/auth/signIn`, {
       method: 'POST',
       body: JSON.stringify({
         userEmail,
         userPassword,
       }),
-    })
+    });
 
-    const data = await res.json()
-    apiClient.setBearerToken(data.accessToken)
+    const data = await res.json();
+    apiClient.setBearerToken(data.accessToken);
 
-    return data
+    return data;
   }
 
   async signUp({
     userEmail,
     userPassword,
   }: {
-    userEmail: string
-    userPassword: string
+    userEmail: string;
+    userPassword: string;
   }) {
     const res = await ApiClient.getInstance().fetch(
       `${ApiClient.API_URL}/auth/signUp`,
@@ -49,9 +49,9 @@ export class AuthApi {
           userPassword,
         }),
       }
-    )
+    );
 
-    return await res.json()
+    return await res.json();
   }
 
   async refresh() {
@@ -59,9 +59,21 @@ export class AuthApi {
       `${ApiClient.API_URL}/auth/refresh`,
       {
         method: 'GET',
-      }
-    )
+      },
+      true
+    );
 
-    return await res.json()
+    return await res.json();
+  }
+
+  async getUser() {
+    const res = await ApiClient.getInstance().fetch(
+      `${ApiClient.API_URL}/auth/user`,
+      {
+        method: 'GET',
+      }
+    );
+
+    return await res.json();
   }
 }

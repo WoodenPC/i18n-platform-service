@@ -4,37 +4,37 @@ import {
   FormLayout,
   FormStatus,
   Input,
-} from '@vkontakte/vkui'
-import React from 'react'
+} from '@vkontakte/vkui';
+import React from 'react';
 
-import { signUpHooks } from '../model'
+import { signUpHooks } from '../model';
 
 export const SignUpForm = () => {
   const { status, isLoading, resetSignUpStatusFn, signUpFn } =
-    signUpHooks.useSignUp()
+    signUpHooks.useSignUp();
 
   const [formState, setFormState] = React.useState({
     userEmail: '',
     userPassword: '',
-  })
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormState((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSignUp = () => {
-    signUpFn(formState)
-  }
+    signUpFn(formState);
+  };
 
   React.useEffect(
     () => () => {
-      resetSignUpStatusFn()
+      resetSignUpStatusFn();
     },
     []
-  )
+  );
 
   return (
     <FormLayout>
@@ -70,5 +70,5 @@ export const SignUpForm = () => {
         </Button>
       </FormItem>
     </FormLayout>
-  )
-}
+  );
+};

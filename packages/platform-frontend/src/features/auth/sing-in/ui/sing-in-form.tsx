@@ -5,28 +5,28 @@ import {
   Input,
   Panel,
   PanelHeader,
-} from '@vkontakte/vkui'
-import React from 'react'
-import { useSignIn } from '../model/hooks'
+} from '@vkontakte/vkui';
+import React from 'react';
+import { useSignIn } from '../model/hooks';
 
 export const SignInForm = () => {
-  const { isLoading, signInFn } = useSignIn()
+  const { isLoading, signInFn } = useSignIn();
 
   const [formState, setFormState] = React.useState({
     userEmail: '',
     userPassword: '',
-  })
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormState((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSignIn = () => {
-    signInFn(formState)
-  }
+    signInFn(formState);
+  };
 
   return (
     <FormLayout>
@@ -53,5 +53,5 @@ export const SignInForm = () => {
         </Button>
       </FormItem>
     </FormLayout>
-  )
-}
+  );
+};

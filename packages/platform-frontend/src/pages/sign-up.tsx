@@ -1,6 +1,6 @@
-import React from 'react'
-import { SignUpForm } from '@features/auth/sing-up'
-import { Panel, PanelHeader, SplitCol, SplitLayout } from '@vkontakte/vkui'
+import React from 'react';
+import { SignUpForm } from '@features/auth/sing-up';
+import { Panel, PanelHeader, SplitCol, SplitLayout } from '@vkontakte/vkui';
 
 export const SignUpPage = () => (
   <SplitLayout>
@@ -13,4 +13,4 @@ export const SignUpPage = () => (
       </Panel>
     </SplitCol>
   </SplitLayout>
-)
+);

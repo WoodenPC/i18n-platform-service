@@ -1,46 +1,34 @@
-import { AuthApi } from '@shared/api'
-import { userModel } from '@entities/user'
-import { createEffect, createEvent, forward } from 'effector'
+import { AuthApi } from '@shared/api';
+import { userModel } from '@entities/user';
+import { createEffect, createEvent, forward } from 'effector';
+import { fetchUserFx } from '@entities/user/model/model';
 
 export const signInFx = createEffect(
   async ({
     userEmail,
     userPassword,
   }: {
-    userEmail: string
-    userPassword: string
+    userEmail: string;
+    userPassword: string;
   }) => {
-    console.log('effect')
-    const authApi = AuthApi.getInstance()
-    return await authApi.signIn({ userEmail, userPassword })
+    const authApi = AuthApi.getInstance();
+    return await authApi.signIn({ userEmail, userPassword });
   }
-)
+);
 
 export const refreshFx = createEffect(async () => {
-  const authApi = AuthApi.getInstance()
-  return await authApi.refresh()
-})
+  const authApi = AuthApi.getInstance();
+  return await authApi.refresh();
+});
 
-export const signIn = createEvent<{ userEmail: string; userPassword: string }>()
+export const signIn = createEvent<{
+  userEmail: string;
+  userPassword: string;
+}>();
 
-export const $isLoading = signInFx.pending
-
-userModel.$user
-  .on(signInFx.doneData, (_, userPayload) => ({
-    user: userPayload,
-    isLoading: false,
-  }))
-  .on(signInFx.fail, () => ({
-    user: null,
-    isLoading: false,
-  }))
-  .on(signInFx.pending, (state) => ({ ...state, isLoading: true }))
-  .on(refreshFx.pending, (state) => ({
-    ...state,
-    isLoading: true,
-  }))
+export const $isLoading = signInFx.pending;
 
 forward({
-  from: signIn,
-  to: signInFx,
-})
+  from: [signInFx.done, refreshFx.done],
+  to: fetchUserFx,
+});

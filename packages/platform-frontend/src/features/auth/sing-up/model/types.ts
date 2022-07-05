@@ -1,1 +1,1 @@
-export type SignUpStatus = 'idle' | 'success' | 'fail'
+export type SignUpStatus = 'idle' | 'success' | 'fail';

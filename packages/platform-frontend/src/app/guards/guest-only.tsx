@@ -1,32 +1,39 @@
-import { userHooks } from '@entities/user'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { userHooks } from '@entities/user';
+import { ScreenSpinner } from '@vkontakte/vkui';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-type GuestOnlyRouteProps = {
-  children: React.ReactNode
-}
+type GuestOnlyGuardProps = {
+  children: React.ReactNode;
+};
 
-export const GuestOnlyRoute = ({ children }: GuestOnlyRouteProps) => {
-  const { user, isLoading } = userHooks.useUser()
-  const navigate = useNavigate()
+export const GuestOnlyGuard = ({
+  children,
+}: GuestOnlyGuardProps): JSX.Element | null => {
+  const { user, isLoading } = userHooks.useUser();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!isLoading) {
       if (user) {
         navigate('/', {
           replace: true,
-        })
+        });
       } else {
         navigate('/signIn', {
           replace: true,
-        })
+        });
       }
     }
-  }, [user, isLoading])
+  }, [user, isLoading]);
 
-  if (isLoading || !!user) {
-    return 'Loading...'
+  if (!children) {
+    return null;
   }
 
-  return children
-}
+  if (isLoading || !!user) {
+    return <ScreenSpinner />;
+  }
+
+  return children as React.ReactElement;
+};
