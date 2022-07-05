@@ -27,7 +27,7 @@ export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) 
         return res.send()
     });
 
-    fastify.get('/auth/refreshToken', async (req, res) => {
+    fastify.get('/auth/refresh', async (req, res) => {
         const refreshToken = req.cookies['refreshToken'];
         const authService = req.diScope.resolve<AuthService>('authService');
         const refreshedData = await authService.refresh(refreshToken);
@@ -35,7 +35,9 @@ export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) 
         return res.send()
     });
 
-    fastify.get('/auth/protectedRoute', { preHandler: [authOnly] }, (req) => {
-        return req.user;
+    fastify.get('/auth/user', { preHandler: [authOnly] }, (req) => {
+        const authService = req.diScope.resolve<AuthService>('authService');
+        console.log(req.user.id);
+        return authService.getUserById(req.user.id);
     })
 }

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookiePlugin from '@fastify/cookie';
 import { fastifyAwilixPlugin } from '@fastify/awilix';
 import jwt from '@fastify/jwt';
+import corsPlugin from '@fastify/cors';
 
 import { init } from '@di/init';
 import { patch } from '@config/patch';
@@ -17,8 +18,6 @@ function startApp() {
   init(server);
   server.register(cookiePlugin);
 
-  server.decorateRequest('user', null);
-
   server.register(jwt, {
     namespace: 'access',
     jwtSign: 'accessSign',
@@ -30,6 +29,12 @@ function startApp() {
     jwtSign: 'refreshSign',
     secret: process.env.JWT_REFRESH_SECRET as string
   });
+
+  server.register(corsPlugin, {
+    origin: '*', // TODO make whitelist,
+    methods: ['POST', 'GET'],
+    credentials: true
+  })
 
   server.decorate('authOnly', authOnly);
   

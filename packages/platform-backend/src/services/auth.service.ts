@@ -99,4 +99,18 @@ export class AuthService {
 
         return { accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, user: userDto };
     }
+
+    async getUserById(id: bigint) {
+        const userModel = await this.prismaClient.user.findUnique({
+            where: {
+                id
+            }
+        });
+
+        if (!userModel) {
+            throw new BadRequestError(`User with ${id} not found`);
+        }
+
+        return new UserDto(userModel);
+    }
 }

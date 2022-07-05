@@ -1,10 +1,10 @@
-import { Team, User } from "@prisma/client";
+import { UsersGroup, User } from "@prisma/client";
 
-export class TeamDto {
-    private teamName: string;
+export class UsersGroupDto {
+    private usersGroupName: string;
     // private teamUsers: User[];
 
-    constructor(teamModel: Team) {
-        this.teamName = teamModel.teamName;
+    constructor(usersGroupModel: UsersGroup) {
+        this.usersGroupName = usersGroupModel.groupName;
     }
 }

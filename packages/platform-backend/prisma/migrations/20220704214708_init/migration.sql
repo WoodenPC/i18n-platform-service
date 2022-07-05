@@ -2,19 +2,19 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
 
 -- CreateTable
-CREATE TABLE "Team" (
+CREATE TABLE "UsersGroup" (
     "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "teamName" TEXT NOT NULL,
+    "groupName" TEXT NOT NULL,
 
-    CONSTRAINT "Team_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UsersGroup_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Project" (
     "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "teamId" BIGINT NOT NULL,
+    "groupId" BIGINT NOT NULL,
 
     CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
 );
@@ -24,9 +24,8 @@ CREATE TABLE "User" (
     "id" BIGSERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userEmail" TEXT NOT NULL,
-    "userName" TEXT NOT NULL,
     "userPassword" TEXT NOT NULL,
-    "teamId" BIGINT NOT NULL,
+    "groupId" BIGINT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -70,7 +69,7 @@ CREATE TABLE "LanguageTranslation" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_userEmail_userName_key" ON "User"("userEmail", "userName");
+CREATE UNIQUE INDEX "User_userEmail_key" ON "User"("userEmail");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AuthToken_userId_key" ON "AuthToken"("userId");
@@ -79,10 +78,10 @@ CREATE UNIQUE INDEX "AuthToken_userId_key" ON "AuthToken"("userId");
 CREATE UNIQUE INDEX "LanguageTranslation_languageId_key" ON "LanguageTranslation"("languageId");
 
 -- AddForeignKey
-ALTER TABLE "Project" ADD CONSTRAINT "Project_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Project" ADD CONSTRAINT "Project_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "UsersGroup"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "UsersGroup"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AuthToken" ADD CONSTRAINT "AuthToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
