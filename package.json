@@ -1,0 +1,11 @@
+{
+  "name": "i18n-platform-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/WoodenPC/i18n-platform-service.git",
+  "author": "Rasul Arslanov <stiflerovich@mail.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "8.0.1"
+  }
+}
