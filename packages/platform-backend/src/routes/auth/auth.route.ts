@@ -1,43 +1,43 @@
 import { authOnly } from "@guards/authOnly";
 import { AuthService } from "@services/auth.service";
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import { FastifyInstance } from "fastify";
 
-export const authRoute = (fastify: FastifyInstance, opts: FastifyPluginOptions) => {
+const REFRESH_COOKIE_SETTINGS =  { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true };
+
+export const authRoute = (fastify: FastifyInstance) => {
     fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/auth/signUp', async (req, res) => {
         const { userEmail, userPassword } = req.body;
         const authService = req.diScope.resolve<AuthService>('authService');
-        
-        const { refreshToken, accessToken, user } =  await authService.signUp(userEmail, userPassword);
-        res.setCookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-        return {user, refreshToken, accessToken};
+        const { refreshToken, accessToken } =  await authService.signUp(userEmail, userPassword);
+        res.setCookie('refreshToken', refreshToken, REFRESH_COOKIE_SETTINGS);
+        return { accessToken};
     });
 
     fastify.post<{ Body: { userEmail: string; userPassword: string } }>('/auth/signIn', async (req, res) => {
         const { userEmail, userPassword } = req.body;
         const authService = req.diScope.resolve<AuthService>('authService');
-        const { accessToken, refreshToken, user } = await authService.signIn(userEmail, userPassword);
-        res.setCookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-        return { accessToken, refreshToken, user };
+        const { accessToken, refreshToken } = await authService.signIn(userEmail, userPassword);
+        res.setCookie('refreshToken', refreshToken,REFRESH_COOKIE_SETTINGS);
+        return { accessToken };
     });
 
     fastify.post('/auth/logout', async (req, res) => {
         const refreshToken = req.cookies['refreshToken'];
         const authService = req.diScope.resolve<AuthService>('authService');
         await authService.logout(refreshToken);
-        return res.send()
+        return res.send(200)
     });
 
     fastify.get('/auth/refresh', async (req, res) => {
         const refreshToken = req.cookies['refreshToken'];
         const authService = req.diScope.resolve<AuthService>('authService');
         const refreshedData = await authService.refresh(refreshToken);
-        res.setCookie('refreshToken', refreshedData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-        return res.send()
+        res.setCookie('refreshToken', refreshedData.refreshToken, REFRESH_COOKIE_SETTINGS);
+        return { accessToken: refreshedData.accessToken }
     });
 
     fastify.get('/auth/user', { preHandler: [authOnly] }, (req) => {
         const authService = req.diScope.resolve<AuthService>('authService');
-        console.log(req.user.id);
-        return authService.getUserById(req.user.id);
+        return authService.getUserById(BigInt(req.user.id));
     })
 }

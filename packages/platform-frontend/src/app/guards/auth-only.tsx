@@ -13,8 +13,6 @@ export const AuthOnlyGuard = ({
   const { user, isLoading } = userHooks.useUser();
   const navigate = useNavigate();
 
-  console.log('auth only guard');
-
   React.useEffect(() => {
     if (!isLoading) {
       if (user) {

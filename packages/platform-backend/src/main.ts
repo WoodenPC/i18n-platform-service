@@ -31,7 +31,7 @@ function startApp() {
   });
 
   server.register(corsPlugin, {
-    origin: '*', // TODO make whitelist,
+    origin: 'http://localhost:3000', // TODO make whitelist,
     methods: ['POST', 'GET'],
     credentials: true
   })
@@ -39,6 +39,18 @@ function startApp() {
   server.decorate('authOnly', authOnly);
   
   server.register(fastifyAwilixPlugin, { disposeOnClose: true });
+
+  server.addContentTypeParser('application/json', { parseAs: 'string' }, (_, body, done) => {
+    try {
+      console.log('try parse body');
+      var json = JSON.parse(body as string)
+      done(null, json)
+    } catch (err: any) {
+      err.statusCode = 400
+      done(err, undefined)
+    }
+  })
+
   server.register(routes, { prefix: '/api' });
 
   server.listen({ port: 8080 }, (err, address) => {

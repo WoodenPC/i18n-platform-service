@@ -2,9 +2,12 @@ import {
   Button,
   FormItem,
   FormLayout,
+  FormLayoutGroup,
   FormStatus,
   Input,
+  Link,
 } from '@vkontakte/vkui';
+import { Link as RouterLink } from 'react-router-dom';
 import React from 'react';
 
 import { signUpHooks } from '../model';
@@ -37,7 +40,7 @@ export const SignUpForm = () => {
   );
 
   return (
-    <FormLayout>
+    <FormLayout onSubmit={handleSignUp}>
       {status !== 'idle' && (
         <FormItem>
           <FormStatus mode={status === 'fail' ? 'error' : 'default'}>
@@ -64,11 +67,16 @@ export const SignUpForm = () => {
           onChange={handleChange}
         />
       </FormItem>
-      <FormItem>
-        <Button size='l' onClick={handleSignUp} loading={isLoading} stretched>
-          Зарегистрироваться
-        </Button>
+      <FormLayoutGroup mode="vertical"  >
+        <FormItem>
+          <Button size='l' onClick={handleSignUp} loading={isLoading} stretched>
+            Зарегистрироваться
+          </Button>
       </FormItem>
+      <FormItem>
+         <RouterLink to='/signIn'><Link>Войти</Link></RouterLink>
+      </FormItem>
+      </FormLayoutGroup>
     </FormLayout>
   );
 };

@@ -29,6 +29,11 @@ export const signIn = createEvent<{
 export const $isLoading = signInFx.pending;
 
 forward({
+  from: signIn,
+  to: signInFx
+})
+
+forward({
   from: [signInFx.done, refreshFx.done],
   to: fetchUserFx,
 });

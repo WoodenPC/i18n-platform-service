@@ -55,7 +55,8 @@ export class AuthApi {
   }
 
   async refresh() {
-    const res = await ApiClient.getInstance().fetch(
+    const apiClient = ApiClient.getInstance();
+    const res = await apiClient.fetch(
       `${ApiClient.API_URL}/auth/refresh`,
       {
         method: 'GET',
@@ -63,7 +64,9 @@ export class AuthApi {
       true
     );
 
-    return await res.json();
+    const data = await res.json();
+    apiClient.setBearerToken(data.accessToken);
+    return data;
   }
 
   async getUser() {

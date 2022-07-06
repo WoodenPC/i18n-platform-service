@@ -2,11 +2,16 @@ import {
   Button,
   FormItem,
   FormLayout,
+  FormLayoutGroup,
   Input,
+  Link,
   Panel,
   PanelHeader,
 } from '@vkontakte/vkui';
 import React from 'react';
+
+import { Link as RouterLink } from 'react-router-dom';
+
 import { useSignIn } from '../model/hooks';
 
 export const SignInForm = () => {
@@ -29,7 +34,7 @@ export const SignInForm = () => {
   };
 
   return (
-    <FormLayout>
+    <FormLayout onSubmit={handleSignIn}>
       <FormItem>
         <Input
           type='text'
@@ -47,11 +52,16 @@ export const SignInForm = () => {
           onChange={handleChange}
         />
       </FormItem>
-      <FormItem>
-        <Button size='l' onClick={handleSignIn} loading={isLoading} stretched>
-          Войти
-        </Button>
+      <FormLayoutGroup mode="vertical"  >
+        <FormItem>
+          <Button size='l' onClick={handleSignIn} loading={isLoading} stretched>
+            Войти
+          </Button>
       </FormItem>
+      <FormItem>
+         <RouterLink to='/signUp'><Link>Создать Аккаут</Link></RouterLink>
+      </FormItem>
+      </FormLayoutGroup>
     </FormLayout>
   );
 };
