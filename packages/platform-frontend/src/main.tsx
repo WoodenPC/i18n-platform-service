@@ -6,7 +6,7 @@ import { AdaptivityProvider, ConfigProvider } from '@vkontakte/vkui';
 
 import '@shared/styles/_main.scss';
 
-//test comment
+// test comment
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // @ts-ignore

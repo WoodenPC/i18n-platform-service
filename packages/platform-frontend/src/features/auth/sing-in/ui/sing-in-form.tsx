@@ -52,15 +52,17 @@ export const SignInForm = () => {
           onChange={handleChange}
         />
       </FormItem>
-      <FormLayoutGroup mode="vertical"  >
+      <FormLayoutGroup mode='vertical'>
         <FormItem>
           <Button size='l' onClick={handleSignIn} loading={isLoading} stretched>
             Войти
           </Button>
-      </FormItem>
-      <FormItem>
-         <RouterLink to='/signUp'><Link>Создать Аккаут</Link></RouterLink>
-      </FormItem>
+        </FormItem>
+        <FormItem>
+          <RouterLink to='/signUp'>
+            <Link href='/signUp'>Создать Аккаут</Link>
+          </RouterLink>
+        </FormItem>
       </FormLayoutGroup>
     </FormLayout>
   );

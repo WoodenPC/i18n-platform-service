@@ -59,7 +59,7 @@ export class AuthApi {
     const res = await apiClient.fetch(
       `${ApiClient.API_URL}/auth/refresh`,
       {
-        method: 'GET',
+        method: 'POST',
       },
       true
     );
@@ -69,13 +69,13 @@ export class AuthApi {
     return data;
   }
 
-  async getUser() {
-    const res = await ApiClient.getInstance().fetch(
-      `${ApiClient.API_URL}/auth/user`,
-      {
-        method: 'GET',
-      }
-    );
+  async logout() {
+    const apiClient = ApiClient.getInstance();
+    const res = apiClient.fetch(`${ApiClient.API_URL}/auth/logout`, {
+      method: 'POST',
+    });
+
+    apiClient.setBearerToken();
 
     return await res.json();
   }

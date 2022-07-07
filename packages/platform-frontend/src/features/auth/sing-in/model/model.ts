@@ -30,8 +30,8 @@ export const $isLoading = signInFx.pending;
 
 forward({
   from: signIn,
-  to: signInFx
-})
+  to: signInFx,
+});
 
 forward({
   from: [signInFx.done, refreshFx.done],

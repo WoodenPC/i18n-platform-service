@@ -1,9 +1,9 @@
 class ApiClient {
   private static instance: ApiClient | null = null;
 
-  private headers: Record<string, string> = {
+  private headers: Record<string, string | undefined> = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
   };
 
   static API_URL: string = process.env.API_URL || 'http://localhost:8080/api';
@@ -16,12 +16,19 @@ class ApiClient {
     return ApiClient.instance;
   }
 
-  setBearerToken(token: string) {
-    this.headers.Authorization = `Bearer ${token}`;
-
+  setBearerToken(token: string | null) {
+    if (!token) {
+      this.headers.Authorization = undefined;
+    } else {
+      this.headers.Authorization = `Bearer ${token}`;
+    }
   }
 
-  async fetch(endpoint: RequestInfo | URL, args?: RequestInit, disableRefreshInterceptor?: boolean) {
+  async fetch(
+    endpoint: RequestInfo | URL,
+    args?: RequestInit,
+    disableRefreshInterceptor?: boolean
+  ) {
     const originalRes = await window.fetch(endpoint, {
       ...(args || {}),
       credentials: 'include',

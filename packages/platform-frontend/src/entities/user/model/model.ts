@@ -1,4 +1,4 @@
-import { AuthApi } from '@shared/api';
+import { UserApi } from '@shared/api';
 import { createDomain } from 'effector';
 import { UserStore } from './types';
 
@@ -10,19 +10,16 @@ export const $user = userDomain.createStore<UserStore>({
 });
 
 export const fetchUserFx = userDomain.createEffect(async () => {
-  const authApi = AuthApi.getInstance();
-  return await authApi.getUser();
+  const userApi = UserApi.getInstance();
+  return await userApi.getUser();
 });
 
-$user.on(fetchUserFx.pending, (state, isLoading) => {
-  return {
+$user
+  .on(fetchUserFx.pending, (state, isLoading) => ({
     ...state,
-    isLoading
-  }
-}).on(fetchUserFx.doneData, (state, user) => {
-  return {
+    isLoading,
+  }))
+  .on(fetchUserFx.doneData, (state, user) => ({
     isLoading: false,
-    user
-  }
-})
-
+    user,
+  }));

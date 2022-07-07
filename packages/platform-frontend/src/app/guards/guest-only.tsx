@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 type GuestOnlyGuardProps = {
   children: React.ReactNode;
+  path?: string;
 };
 
 export const GuestOnlyGuard = ({
   children,
+  path,
 }: GuestOnlyGuardProps): JSX.Element | null => {
   const { user, isLoading } = userHooks.useUser();
   const navigate = useNavigate();
@@ -20,12 +22,12 @@ export const GuestOnlyGuard = ({
           replace: true,
         });
       } else {
-        navigate('/signIn', {
+        navigate(path || '/signIn', {
           replace: true,
         });
       }
     }
-  }, [user, isLoading]);
+  }, [user, isLoading, path]);
 
   if (!children) {
     return null;

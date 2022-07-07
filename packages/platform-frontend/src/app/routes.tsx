@@ -13,29 +13,21 @@ type AppRouteObject = {
   subRoutes?: AppRouteObject[];
 };
 
-export const renderElement = (
-  element?: React.ReactNode,
-  authOnly?: boolean,
-  guestOnly?: boolean
-) => {
-  if (authOnly) {
-    return <AuthOnlyGuard>{element}</AuthOnlyGuard>;
+export const renderElement = (route: AppRouteObject) => {
+  if (route.authOnly) {
+    return <AuthOnlyGuard>{route.element}</AuthOnlyGuard>;
   }
 
-  if (guestOnly) {
-    return <GuestOnlyGuard>{element}</GuestOnlyGuard>;
+  if (route.guestOnly) {
+    return <GuestOnlyGuard path={route.path}>{route.element}</GuestOnlyGuard>;
   }
 
-  return element;
+  return route.element;
 };
 
 export const renderRoutes = (routes: AppRouteObject[]) =>
   routes.map((route) => (
-    <Route
-      key={route.path}
-      path={route.path}
-      element={renderElement(route.element, route.authOnly, route.guestOnly)}
-    >
+    <Route key={route.path} path={route.path} element={renderElement(route)}>
       {route.subRoutes &&
         route.subRoutes.length > 0 &&
         renderRoutes(route.subRoutes)}
