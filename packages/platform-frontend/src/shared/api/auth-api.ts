@@ -60,6 +60,7 @@ export class AuthApi {
       `${ApiClient.API_URL}/auth/refresh`,
       {
         method: 'POST',
+        body: '{}',
       },
       true
     );

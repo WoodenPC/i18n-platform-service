@@ -59,9 +59,7 @@ export const SignInForm = () => {
           </Button>
         </FormItem>
         <FormItem>
-          <RouterLink to='/signUp'>
-            <Link href='/signUp'>Создать Аккаут</Link>
-          </RouterLink>
+          <Link href='/signUp'>Создать Аккаут</Link>
         </FormItem>
       </FormLayoutGroup>
     </FormLayout>

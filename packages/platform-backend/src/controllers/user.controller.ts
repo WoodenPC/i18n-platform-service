@@ -1,15 +1,14 @@
 import { UserService } from "@services/user.service";
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 
 export class UserController {
     private userService: UserService;
 
-    constructor(fastify: FastifyInstance) {
-        this.userService = fastify.diContainer.resolve<UserService>('userService');
-        fastify.get('/user', this.getUser);
+    constructor({ userService }: { userService: UserService }) {
+        this.userService = userService;
     }
 
-    async getUser(req: FastifyRequest, res: FastifyReply) {
+    getUser = async (req: FastifyRequest, res: FastifyReply) => {
         return this.userService.getUserById(BigInt(req.user.id));
     }
 }

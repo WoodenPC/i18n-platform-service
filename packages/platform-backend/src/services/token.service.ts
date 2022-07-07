@@ -1,6 +1,5 @@
 import { UserDto } from "@dto/user.dto";
 import { PrismaClient } from "@prisma/client";
-import { JWT } from '@fastify/jwt';
 import { FastifyInstance } from "fastify";
 import { BadRequestError } from "@shared/exceptions";
 import { CustomFastifyJWT, UserJWTPayload } from "@shared/types/jwt";

@@ -9,6 +9,7 @@ import { init } from '@di/init';
 import { patch } from '@config/patch';
 
 import { authOnly } from '@guards/authOnly';
+import { registerRoutes } from './routes';
 dotenv.config();
 patch();
 
@@ -50,6 +51,7 @@ function startApp() {
   });
 
   init(server);
+  server.register(registerRoutes, { prefix: '/api' });
 
   server.listen({ port: 8080 }, (err, address) => {
     if (err) {
