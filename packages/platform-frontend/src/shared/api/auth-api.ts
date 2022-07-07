@@ -71,11 +71,11 @@ export class AuthApi {
 
   async logout() {
     const apiClient = ApiClient.getInstance();
-    const res = apiClient.fetch(`${ApiClient.API_URL}/auth/logout`, {
+    const res = await apiClient.fetch(`${ApiClient.API_URL}/auth/logout`, {
       method: 'POST',
     });
 
-    apiClient.setBearerToken();
+    apiClient.setBearerToken(null);
 
     return await res.json();
   }
