@@ -8,14 +8,12 @@ import corsPlugin from '@fastify/cors';
 import { init } from '@di/init';
 import { patch } from '@config/patch';
 
-import { routes } from './routes';
 import { authOnly } from '@guards/authOnly';
 dotenv.config();
 patch();
 
 function startApp() {
   const server = fastify({ logger: true });
-  init(server);
   server.register(cookiePlugin);
 
   server.register(jwt, {
@@ -49,16 +47,16 @@ function startApp() {
       err.statusCode = 400
       done(err, undefined)
     }
-  })
+  });
 
-  server.register(routes, { prefix: '/api' });
+  init(server);
 
   server.listen({ port: 8080 }, (err, address) => {
     if (err) {
-      console.error(err)
-      process.exit(1)
+      console.error(err);
+      process.exit(1);
     }
-    console.log(`Server listening at ${address}`)
+    console.log(`Server listening at ${address}`);
   });
 }
 
