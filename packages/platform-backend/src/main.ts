@@ -31,7 +31,7 @@ function startApp() {
 
   server.register(corsPlugin, {
     origin: 'http://localhost:3000', // TODO make whitelist,
-    methods: ['POST', 'GET'],
+    methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH'],
     credentials: true
   })
 
@@ -41,7 +41,6 @@ function startApp() {
 
   server.addContentTypeParser('application/json', { parseAs: 'string' }, (_, body, done) => {
     try {
-      console.log('try parse body');
       var json = JSON.parse(body as string)
       done(null, json)
     } catch (err: any) {

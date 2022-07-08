@@ -11,4 +11,8 @@ export class UserController {
     getUser = async (req: FastifyRequest, res: FastifyReply) => {
         return this.userService.getUserById(BigInt(req.user.id));
     }
+
+    getUserGroups = async (req: FastifyRequest, res: FastifyReply) => {
+        return this.userService.getUserGroups(BigInt(req.user.id));
+    }
 }

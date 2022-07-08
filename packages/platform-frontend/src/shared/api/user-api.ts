@@ -13,7 +13,7 @@ export class UserApi {
 
   async getUser() {
     const res = await ApiClient.getInstance().fetch(
-      `${ApiClient.API_URL}/auth/user`,
+      `${ApiClient.API_URL}/user`,
       {
         method: 'GET',
       }

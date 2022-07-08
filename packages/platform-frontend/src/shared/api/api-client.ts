@@ -1,7 +1,7 @@
 class ApiClient {
   private static instance: ApiClient | null = null;
 
-  private headers: Record<string, string | undefined> = {
+  private headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   };
@@ -18,7 +18,7 @@ class ApiClient {
 
   setBearerToken(token: string | null) {
     if (!token) {
-      this.headers.Authorization = undefined;
+      this.headers.Authorization = '';
     } else {
       this.headers.Authorization = `Bearer ${token}`;
     }

@@ -10,17 +10,33 @@ export class UserService {
     }
 
 
-    async getUserById(id: bigint) {
+    async getUserById(userId: bigint) {
         const userModel = await this.prismaClient.user.findUnique({
             where: {
-                id
+                id: userId
+            },
+        });
+
+        if (!userModel) {
+            throw new BadRequestError(`User with ${userId} not found`);
+        }
+
+        return new UserDto(userModel);
+    }
+
+    async getUserGroups(userId: bigint) {
+        const userModel = await this.prismaClient.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                groups: true,
             }
         });
 
         if (!userModel) {
-            throw new BadRequestError(`User with ${id} not found`);
+            throw new BadRequestError(`User with ${userId} not found`);
         }
 
-        return new UserDto(userModel);
     }
 }

@@ -32,7 +32,6 @@ export class AuthController {
 
     refresh = async(req: FastifyRequest, res: FastifyReply) => {
         const refreshToken = req.cookies['refreshToken'];
-        console.log('instance', this.authService);
         const refreshedData = await this.authService.refresh(refreshToken);
         res.setCookie('refreshToken', refreshedData.refreshToken, REFRESH_COOKIE_SETTINGS);
         return { accessToken: refreshedData.accessToken }

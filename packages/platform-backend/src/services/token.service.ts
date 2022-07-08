@@ -14,7 +14,6 @@ export class TokenService {
     }
 
     async generateToken(userDto: UserDto) {
-        console.log(userDto.getId().toString());
         const accessToken = this.jwt.access.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30m',  });
         const refreshToken = this.jwt.refresh.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30d' });
 
