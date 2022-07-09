@@ -1,4 +1,4 @@
-import { UserDto } from "@dto/user.dto";
+import { GetUserResponseDto } from "@dto/user.dto";
 import { PrismaClient } from "@prisma/client";
 import { BadRequestError } from "@shared/exceptions";
 
@@ -10,27 +10,13 @@ export class UserService {
     }
 
 
-    async getUserById(userId: bigint) {
+    async getUser(userId: bigint) {
         const userModel = await this.prismaClient.user.findUnique({
             where: {
-                id: userId
-            },
-        });
-
-        if (!userModel) {
-            throw new BadRequestError(`User with ${userId} not found`);
-        }
-
-        return new UserDto(userModel);
-    }
-
-    async getUserGroups(userId: bigint) {
-        const userModel = await this.prismaClient.user.findUnique({
-            where: {
-                id: userId
+                id: userId,
             },
             include: {
-                groups: true,
+                groups: true
             }
         });
 
@@ -38,5 +24,6 @@ export class UserService {
             throw new BadRequestError(`User with ${userId} not found`);
         }
 
+        return new GetUserResponseDto(userModel);
     }
 }

@@ -1,8 +1,9 @@
-import { UserDto } from "@dto/user.dto";
 import { PrismaClient } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { BadRequestError } from "@shared/exceptions";
 import { CustomFastifyJWT, UserJWTPayload } from "@shared/types/jwt";
+import { ValidateTokenDto } from "@dto/token.dto";
+import { AuthUserResponseDto } from "@dto/auth.dto";
 
 
 export class TokenService {
@@ -13,9 +14,9 @@ export class TokenService {
         this.prismaClient = prismaClient;
     }
 
-    async generateToken(userDto: UserDto) {
-        const accessToken = this.jwt.access.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30m',  });
-        const refreshToken = this.jwt.refresh.sign({ id: userDto.getId().toString(), userEmail: userDto.getEmail() }, { expiresIn: '30d' });
+    async generateToken(userDto: AuthUserResponseDto) {
+        const accessToken = this.jwt.access.sign({ id: userDto.id.toString(), userEmail: userDto.userEmail }, { expiresIn: '30m',  });
+        const refreshToken = this.jwt.refresh.sign({ id: userDto.id.toString(), userEmail: userDto.userEmail }, { expiresIn: '30d' });
 
         return {
             accessToken,
@@ -23,17 +24,17 @@ export class TokenService {
         };
     }
 
-    async saveToken(userDto: UserDto, refreshToken: string) {
+    async saveToken(userDto: AuthUserResponseDto, refreshToken: string) {
         const tokenData = await this.prismaClient.authToken.findUnique({
             where: {
-                userId: userDto.getId()
+                userId: userDto.id
             }
         });
 
         if (tokenData) {
             return await this.prismaClient.authToken.update({
                 where: {
-                    userId: userDto.getId()
+                    userId: userDto.id
                 },
                 data: {
                     refreshToken
@@ -45,7 +46,7 @@ export class TokenService {
         return this.prismaClient.authToken.create({
             data: {
                 refreshToken,
-                userId: userDto.getId()
+                userId: userDto.id
             }
         })
     }
@@ -64,7 +65,7 @@ export class TokenService {
 
     validateAccessToken(token: string) {
         try {
-            return this.jwt.access.verify<UserJWTPayload>(token);
+            return new ValidateTokenDto(this.jwt.access.verify<UserJWTPayload>(token));
         } catch(e) {
             console.error(e);
             return null;
@@ -73,7 +74,7 @@ export class TokenService {
 
     validateRefreshToken(token: string) {
         try {
-            return this.jwt.refresh.verify<UserJWTPayload>(token);
+            return new ValidateTokenDto(this.jwt.refresh.verify<UserJWTPayload>(token));
         } catch(e) {
             console.error(e);
             return null;

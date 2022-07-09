@@ -1,8 +1,9 @@
-import { UserDto } from "@dto/user.dto";
+import { GetUserResponseDto } from "@dto/user.dto";
 import bcrypt from 'bcrypt';
 import { PrismaClient } from "@prisma/client";
 import { BadRequestError, UnathorizedError } from "@shared/exceptions";
 import { TokenService } from "./token.service";
+import { AuthUserResponseDto } from "@dto/auth.dto";
 
 export class AuthService {
     private prismaClient: PrismaClient;
@@ -32,7 +33,7 @@ export class AuthService {
             }
         });
 
-       const userDto = new UserDto(userModel);
+       const userDto = new AuthUserResponseDto(userModel);
        const { accessToken, refreshToken } = await this.tokenService.generateToken(userDto);
 
        await this.tokenService.saveToken(userDto, refreshToken);
@@ -57,7 +58,7 @@ export class AuthService {
             throw new BadRequestError('Incorrect password');
         }
 
-        const userDto = new UserDto(user);
+        const userDto = new AuthUserResponseDto(user);
         const { accessToken, refreshToken } = await this.tokenService.generateToken(userDto);
         await this.tokenService.saveToken(userDto, refreshToken);
         return { accessToken, refreshToken, user: userDto }
@@ -78,7 +79,7 @@ export class AuthService {
             throw new UnathorizedError();
         }
 
-        const tokenFromDb = await this.tokenService.findRefreshTokenInDb(BigInt(userTokenData.id));
+        const tokenFromDb = await this.tokenService.findRefreshTokenInDb(userTokenData.id);
 
         if (!tokenFromDb) {
             throw new UnathorizedError();
@@ -86,7 +87,7 @@ export class AuthService {
 
         const userModel =  await this.prismaClient.user.findUnique({
             where: {
-                id: BigInt(userTokenData.id)
+                id: userTokenData.id
             }
         });
 
@@ -94,23 +95,9 @@ export class AuthService {
             throw new UnathorizedError();
         }
 
-        const userDto = new UserDto(userModel);
+        const userDto = new GetUserResponseDto(userModel);
         const tokens = await this.tokenService.generateToken(userDto);
 
         return { accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, user: userDto };
-    }
-
-    async getUserById(id: bigint) {
-        const userModel = await this.prismaClient.user.findUnique({
-            where: {
-                id
-            }
-        });
-
-        if (!userModel) {
-            throw new BadRequestError(`User with ${id} not found`);
-        }
-
-        return new UserDto(userModel);
     }
 }

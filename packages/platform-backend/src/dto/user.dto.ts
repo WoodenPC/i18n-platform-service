@@ -1,21 +1,13 @@
-import { User } from "@prisma/client";
-import { UsersGroupDto } from "./user-group.dto";
+import { User, UsersGroup } from "@prisma/client";
 
-export class UserDto {
-    private userEmail: string;
-    private id: bigint;
-    // private userGroups: UsersGroupDto[];
+export class GetUserResponseDto {
+    public readonly userEmail: string;
+    public readonly id: bigint;
+    public readonly groups: { id: bigint, groupName: string }[]
 
-    constructor(userModel: User) {
+    constructor(userModel: User & { groups: UsersGroup[] }) {
         this.userEmail = userModel.userEmail;
         this.id = userModel.id;
-    }
-
-    getEmail() {
-        return this.userEmail;
-    }
-
-    getId() {
-        return this.id;
+        this.groups = userModel.groups.map((groupData) => ({ id: groupData.id, groupName: groupData.groupName }));
     }
 }

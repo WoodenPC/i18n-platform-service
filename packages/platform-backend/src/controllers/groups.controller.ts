@@ -1,7 +1,13 @@
-export class GroupsController {
-    constructor() {}
+import { GroupsService } from "@services/groups.service";
 
-    async createGroup() {
+export class GroupsController {
+    private groupsService: GroupsService;
+
+    constructor({ groupsService }: { groupsService: GroupsService }) {
+        this.groupsService = groupsService;
+    }
+
+    async createGroup(groupName: string) {
 
     }
 
