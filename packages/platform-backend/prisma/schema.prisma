@@ -7,64 +7,161 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model UsersGroup {
-    id BigInt @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    groupName String
-    groupProjects Project[]
-    groupUsers User[]
+model Team {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  teamName String @map("team_name")
+
+  usersTeam UserTeam[]
+
+  @@map("teams")
 }
 
 model Project {
   id BigInt @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  group UsersGroup @relation(fields: [groupId], references: [id])
-  groupId BigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  projectName String @map("project_name")
+
+  languagesProject LanguageProject[]
+  projectGroupTeam ProjectGroupTeam?
+
+  @@map("projects")
 }
+
+model UserTeam {
+  id BigInt @id @default(autoincrement())
+  userRole UserRolesEnum @default(MEMBER) @map("user_role")
+
+  user User @relation(fields: [userId], references: [id])
+  userId BigInt @unique @map("user_id")
+  userGroupTeam UserGroupTeam?
+  invitationTeam InvititationTeam?
+
+  team Team @relation(fields: [teamId], references: [id])
+  teamId BigInt @map("team_id")
+  
+
+  @@map("users_team")
+}
+
+model InvititationTeam {
+  id BigInt @id @default(autoincrement())
+  inviteLink String @map("invite_link")
+  isActivated Boolean @default(false) @map("is_activated")
+
+  userTeam UserTeam @relation(fields: [userTeamId], references: [id])
+  userTeamId BigInt @unique
+
+  @@map("invitations_team")
+}
+
+model UserGroupTeam {
+  id BigInt @id @default(autoincrement())
+
+  userTeam UserTeam @relation(fields: [userTeamId], references: [id])
+  userTeamId BigInt @unique @map("user_team_id")
+
+  groupTeam GroupTeam @relation(fields: [groupTeamId], references: [id])
+  groupTeamId BigInt @map("group_team_id")
+
+  @@map("users_group_team")
+}
+
+model ProjectGroupTeam {
+  id BigInt @id @default(autoincrement())
+
+  project Project @relation(fields: [projectId], references: [id])
+  projectId BigInt @unique @map("project_id")
+
+  groupTeam GroupTeam @relation(fields: [groupTeamId], references: [id])
+  groupTeamId BigInt @map("group_team_id")
+
+  @@map("projects_group_team")
+}
+
+model GroupTeam {
+  id BigInt @id @default(autoincrement())
+  groupName String @map("group_name")
+  usersGroupTeam UserGroupTeam[]
+  projectsGroupTeam ProjectGroupTeam[]
+  permissionsGroupTeam PermissionGroupTeam[]
+
+  @@map("groups_team")
+}
+
+model Permission {
+  id BigInt @id @default(autoincrement())
+  name AdminPermissionsEnum
+
+  permissionGroupTeam PermissionGroupTeam?
+
+  @@map("permissions")
+}
+
+model PermissionGroupTeam {
+  id BigInt @id @default(autoincrement())
+  isEnabled Boolean @default(false) @map("is_enabled")
+  permission Permission @relation(fields: [permissionId], references: [id])
+  permissionId BigInt @unique @map("permission_id")
+
+  grouTeam GroupTeam @relation(fields: [groupTeamId], references: [id])
+  groupTeamId BigInt @map("group_team_id")
+
+  @@map("permissions_group_team")
+}
+
+enum UserRolesEnum {
+  MEMBER
+  ADMIN
+  OWNER
+}
+
+enum AdminPermissionsEnum {
+  MANAGE_KEYS
+  UPLOAD_FILES
+  //TODO
+}
+
 
 model User {
   id BigInt @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  userEmail String @unique
-  userPassword String
+  createdAt DateTime @default(now()) @map("created_at")
+  userEmail String @unique @map("user_email")
+  userPassword String @map("user_password")
 
-  groups UsersGroup[]
   authToken AuthToken?
+  userTeam UserTeam?
+
+  @@map("users")
 }
 
 model AuthToken {
   id BigInt @id @default(autoincrement())
-  refreshToken String
+  refreshToken String @map("refresh_token")
   user User @relation(fields: [userId], references: [id])
-  userId BigInt @unique
+  userId BigInt @unique @map("user_id")
+
+  @@map("auth_tokens")
 }
 
 model Language {
   id BigInt @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  languageName String
-  translation LanguageTranslation?
+  createdAt DateTime @default(now()) @map("created_at")
+  languageCode String @map("language_code")
+
+  projectLanguage LanguageProject?
+
+  @@map("languages")
 }
 
-model Translation {
+model LanguageProject {
   id BigInt @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  keyName String
-  languageTranslations LanguageTranslation[]
-}
 
-
-model LanguageTranslation {
-  id BigInt @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  translationValue String
-  translation Translation @relation(fields: [translationId], references: [id])
-  translationId BigInt
   language Language @relation(fields: [languageId], references: [id])
-  languageId BigInt @unique
-}
+  languageId BigInt @unique @map("language_id")
 
-enum Role {
-  USER
-  ADMIN
+  project Project @relation(fields: [projectId], references: [id])
+  projectId BigInt @map("project_id")
+
+  @@map("languages_project")
 }
