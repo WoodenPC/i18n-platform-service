@@ -1441,27 +1441,27 @@
     react-refresh "^0.11.0"
     resolve "^1.22.0"
 
-"@vkontakte/icons@1.172.0":
-  version "1.172.0"
-  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.172.0.tgz#26f1c37c3da3d15c0bce4ac3ee05211ac644c169"
-  integrity sha512-WhP3Ty2ftaVzoT5Xq4qXwymEjsfYRsY4iuLhyZXymuv48N6+dsVEdZJZvt0J0jCmFTmvR7opkmKVsbVEqGWe+g==
+"@vkontakte/icons@1.180.0":
+  version "1.180.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.180.0.tgz#58ccd6df5cc29e728a724a0fd965f1d480e53d39"
+  integrity sha512-us4Hj0NeNqzqIg/e4RuKoHN20h18PM9tQRdADe8xt0uTTrWtO5vwq19xCcIts+xGY3vTwJfFlom6valQtuYw/A==
   dependencies:
     svg-baker-runtime "1.4.7"
 
-"@vkontakte/vk-bridge@2.6.4":
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/@vkontakte/vk-bridge/-/vk-bridge-2.6.4.tgz#30c53029ef23007dcab98ade0e6a77578bc0a4bd"
-  integrity sha512-5tmDH+2zpet87gFqvsy4PhwWL5yT4KiSA6zAHylWe6JE63St/QGxUX7wmcKDjue5Fsw7XhkONRmOM/xOqYYjrg==
+"@vkontakte/vk-bridge@2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/vk-bridge/-/vk-bridge-2.7.0.tgz#6a3c422b75d2ddd20dfad66d9418ab3921974a15"
+  integrity sha512-Y3w3PivRaa/QkwKvwDdk+hWYdLRwqnFuxNJN3Z59PcEjLlCqgGbQ1x8vSZiEoLRmqjmV7NOqN+5fWnCCvGVNoQ==
 
 "@vkontakte/vkjs@^0.22.2":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@vkontakte/vkjs/-/vkjs-0.22.2.tgz#b530195b009bb598289a6c6382f1c35c4d1e66c2"
   integrity sha512-dOnRGhcKzCuex/RRTmi74uckqAQtGcVPhsKXSptmKz1/KqVt6WpmOT2rrr2rPyyWcfjHBbPwnF8A4Z0jkFz+Zg==
 
-"@vkontakte/vkui@4.33.2":
-  version "4.33.2"
-  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-4.33.2.tgz#bc2c990cf8e31f4f042eea74f11e371253501ffb"
-  integrity sha512-jEq2LJ/XLPSBm7Gqu7lhoxpvkoL5k+6kJvmykkOkZNDTkOpwWhY8tN4P5EcR/yMXpcTE+BUtocwocgHtKTQLyg==
+"@vkontakte/vkui@4.34.0":
+  version "4.34.0"
+  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-4.34.0.tgz#97e4a3a78da219caf3f17db6b0341b44571b681e"
+  integrity sha512-2Je7omGDLSwkO98pVf5JDHXpUKUcmWmwHLokVDSR08mAMnX1N4MUGNeBzsSVg/eSSWF59RkG6VSLhlX3TmQnyg==
   dependencies:
     "@babel/runtime" "^7.14.6"
     "@popperjs/core" "^2.9.2"
@@ -1861,6 +1861,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 clean-stack@^2.0.0:
   version "2.2.0"
@@ -3031,11 +3036,6 @@ human-signals@^3.0.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-3.0.1.tgz#c740920859dafa50e5a3222da9d3bf4bb0e5eef5"
   integrity sha512-rQLskxnM/5OCldHo+wNXbpVgDn5A17CUoKX+7Sokwaknlq7CdSnphy0W39GU8dw59XiCXmFXDg4fRuckQRKewQ==
 
-husky@8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.1.tgz#511cb3e57de3e3190514ae49ed50f6bc3f50b3e9"
-  integrity sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==
-
 ignore@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
@@ -3623,11 +3623,6 @@ mixin-deep@^1.2.0:
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
-
-mobx@6.6.0:
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.6.0.tgz#617ca1f3b745a781fa89c5eb94a773e3cbeff8ae"
-  integrity sha512-MNTKevLH/6DShLZcmSL351+JgiJPO56A4GUpoiDQ3/yZ0mAtclNLdHK9q4BcQhibx8/JSDupfTpbX2NZPemlRg==
 
 ms@2.0.0:
   version "2.0.0"

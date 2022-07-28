@@ -8,12 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vkontakte/icons": "1.172.0",
-    "@vkontakte/vk-bridge": "2.6.4",
-    "@vkontakte/vkui": "4.33.2",
+    "@vkontakte/icons": "1.180.0",
+    "@vkontakte/vk-bridge": "2.7.0",
+    "@vkontakte/vkui": "4.34.0",
+    "classnames": "2.3.1",
     "effector": "^22.3.0",
     "effector-react": "22.0.6",
-    "mobx": "6.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.3.0",

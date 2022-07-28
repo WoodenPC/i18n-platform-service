@@ -46,11 +46,13 @@ model UserTeam {
 
 model InvititationTeam {
   id BigInt @id @default(autoincrement())
-  inviteLink String @map("invite_link")
+  createdAt DateTime @map("created_at")
+  inviteToken String @map("invite_token")
+  expirationDate DateTime @map("expiration_date")
   isActivated Boolean @default(false) @map("is_activated")
 
-  userTeam UserTeam @relation(fields: [userTeamId], references: [id])
-  userTeamId BigInt @unique
+  sender UserTeam @relation(fields: [senderId], references: [id])
+  senderId BigInt @unique @map("sender_id")
 
   @@map("invitations_team")
 }
@@ -122,17 +124,29 @@ enum AdminPermissionsEnum {
   //TODO
 }
 
+enum UserAccountStatus {
+  ACTIVATED
+  NOT_ACTIVATED
+}
 
 model User {
   id BigInt @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
   userEmail String @unique @map("user_email")
   userPassword String @map("user_password")
-
+  userAccountStatus UserAccountStatus @default(NOT_ACTIVATED) @map("user_account_status")
   authToken AuthToken?
   userTeam UserTeam?
 
   @@map("users")
+}
+
+model UserAccountInvitation {
+  id BigInt @id @default(autoincrement())
+  createdAt DateTime @map("created_at")
+  inviteToken String @map("invite_token")
+  expirationDate DateTime @map("expiration_date")
+  isActivated Boolean @default(false) @map("is_activated")
 }
 
 model AuthToken {

@@ -29,6 +29,20 @@ function startApp() {
     secret: process.env.JWT_REFRESH_SECRET as string
   });
 
+  server.register(jwt, {
+    namespace: 'teamInvite',
+    jwtSign: 'teamInviteSign',
+    secret: process.env.JWT_TEAM_INVITE_SECRET as string
+  });
+
+
+  server.register(jwt, {
+    namespace: 'userActivate',
+    jwtSign: 'userActivateSign',
+    secret: process.env.JWT_USER_ACTIVATION_SECRET as string
+  });
+
+
   server.register(corsPlugin, {
     origin: 'http://localhost:3000', // TODO make whitelist,
     methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH'],

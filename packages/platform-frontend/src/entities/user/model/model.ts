@@ -1,5 +1,6 @@
 import { UserApi } from '@shared/api';
 import { createDomain } from 'effector';
+import { useStore } from 'effector-react';
 import { UserStore } from './types';
 
 const userDomain = createDomain('entities/user');
@@ -14,12 +15,6 @@ export const fetchUserFx = userDomain.createEffect(async () => {
   return await userApi.getUser();
 });
 
-$user
-  .on(fetchUserFx.pending, (state, isLoading) => ({
-    ...state,
-    isLoading,
-  }))
-  .on(fetchUserFx.doneData, (state, user) => ({
-    isLoading: false,
-    user,
-  }));
+export const hooks = {
+  useUser: () => useStore($user),
+};

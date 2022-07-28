@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { diContainer } from "@fastify/awilix";
 import { PrismaClient } from "@prisma/client";
-import { TokenService, AuthService, UserService, GroupsService } from '@services/index';
-import { AuthController, UserController, GroupsController } from '@controllers/index'
+import { TokenService, AuthService, UserService, GroupsService, TeamService } from '@services/index';
+import { AuthController, UserController, GroupsController, TeamController } from '@controllers/index'
 import { asClass, asFunction } from "awilix";
 
 export function init (fastifyApp: FastifyInstance) {
@@ -17,10 +17,12 @@ export function init (fastifyApp: FastifyInstance) {
       tokenService: asClass(TokenService),
       userService: asClass(UserService),
       groupsService: asClass(GroupsService),
+      teamService: asClass(TeamService),
 
       //controllers
       authController: asClass(AuthController),
       userController: asClass(UserController),
       groupsController: asClass(GroupsController),
+      teamController: asClass(TeamController)
     });
 }

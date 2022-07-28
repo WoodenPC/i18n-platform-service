@@ -1,4 +1,4 @@
-import { userHooks } from '@entities/user';
+import { userModel } from '@entities/user';
 import { ScreenSpinner } from '@vkontakte/vkui';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ type AuthOnlyGuardProps = {
 export const AuthOnlyGuard = ({
   children,
 }: AuthOnlyGuardProps): JSX.Element | null => {
-  const { user, isLoading } = userHooks.useUser();
+  const { user, isLoading } = userModel.hooks.useUser();
   const navigate = useNavigate();
 
   React.useEffect(() => {

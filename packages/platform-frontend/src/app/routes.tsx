@@ -4,9 +4,11 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { GuestOnlyGuard } from './guards/guest-only';
 import { AuthOnlyGuard } from './guards/auth-only';
+import { AppLayout } from './app-layout';
+import { GuestLayout } from './guest-layout';
 
 type AppRouteObject = {
-  path: string;
+  path?: string;
   element?: React.ReactNode;
   guestOnly?: boolean;
   authOnly?: boolean;
@@ -35,19 +37,30 @@ export const renderRoutes = (routes: AppRouteObject[]) =>
   ));
 
 export const APP_ROUTES: AppRouteObject[] = [
-  { path: '/', authOnly: true, element: <div>page</div> },
-  { path: '/signIn', element: <SignInPage />, guestOnly: true },
-  { path: '/signUp', element: <SignUpPage />, guestOnly: true },
   {
-    path: '/groups/:groupId',
-    authOnly: true,
+    element: <GuestLayout />,
+    guestOnly: true,
+    subRoutes: [
+      { path: '/signIn', element: <SignInPage /> },
+      { path: '/signUp', element: <SignUpPage /> },
+    ],
   },
+
   {
-    path: '/groups/:groupId/projects',
+    element: <AppLayout />,
     authOnly: true,
-  },
-  {
-    path: '/groups/:groupId/projects/:projectId',
-    authOnly: true,
+    subRoutes: [
+      // TODO: add normal routes
+      { path: '/', element: <div>page</div> },
+      {
+        path: '/dashbboard',
+      },
+      {
+        path: '/dash',
+      },
+      {
+        path: '',
+      },
+    ],
   },
 ];

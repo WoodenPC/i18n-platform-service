@@ -1,4 +1,3 @@
-import * as userModel from './model';
-import * as userHooks from './hooks';
+import './init';
 
-export { userModel, userHooks };
+export * from './model';
