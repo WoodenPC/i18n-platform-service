@@ -1,3 +1,20 @@
 .sidebarMenu {
+  background-color: rgba(0,0,0,0.07);
+}
 
+.menuItem {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  color: rgb(128, 128, 128);
+
+  &:hover {
+    background-color: white;
+  }
+
+  &[aria-current="page"] {
+    background-color: white;
+  }
 }

@@ -1,4 +1,4 @@
 export type User = {
-  id: bigint;
+  id: string;
   userEmail: string;
 };

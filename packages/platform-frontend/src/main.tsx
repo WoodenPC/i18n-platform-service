@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from '@app/app';
 import '@vkontakte/vkui/dist/vkui.css';
+import '@vkontakte/vkui/dist/unstable.css';
 import { AdaptivityProvider, ConfigProvider } from '@vkontakte/vkui';
 
 import '@shared/styles/_main.scss';

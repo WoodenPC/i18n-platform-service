@@ -7,12 +7,18 @@ const userDomain = createDomain('entities/user');
 
 export const $user = userDomain.createStore<UserStore>({
   isLoading: false,
-  user: null,
+  user: {
+    id: '321313',
+    userEmail: 'test-user@mail.ru',
+  },
 });
 
 export const fetchUserFx = userDomain.createEffect(async () => {
   const userApi = UserApi.getInstance();
-  return await userApi.getUser();
+  return {
+    userName: 'test-user',
+  }; // TODO
+  // return await userApi.getUser();
 });
 
 export const hooks = {

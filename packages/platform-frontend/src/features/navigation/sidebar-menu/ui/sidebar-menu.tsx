@@ -1,27 +1,31 @@
-import React from 'react';
+import { SideBar, SidebarBody, SidebarFooter } from '@shared/ui/sidebar';
+
 import {
-  SideBar,
-  SidebarBody,
-  SidebarFooter,
-  SidebarItem,
-} from '@shared/ui/sidebar';
+  Icon24GearOutline,
+  Icon36Users,
+  Icon24BookSpreadOutline,
+} from '@vkontakte/icons';
 
-import classes from './sidebar-menu.module.scss';
+import { SideBarMenuItem } from './sidebar-menu-item';
 
-export const SidebarMenu = () => {
-  return (
-    <SideBar>
-      <SidebarBody>
-        <SidebarItem>
-          <div>Дашборд</div>
-        </SidebarItem>
-        <SidebarItem>
-          <div>Команда</div>
-        </SidebarItem>
-      </SidebarBody>
-      <SidebarFooter>
-        <SidebarItem>Пользователь</SidebarItem>
-      </SidebarFooter>
-    </SideBar>
-  );
-};
+import styles from './sidebar-menu.module.scss';
+
+export const SidebarMenu = () => (
+  <SideBar className={styles.sidebarMenu}>
+    <SidebarBody>
+      <SideBarMenuItem
+        text='Проекты'
+        to='projects'
+        icon={<Icon24BookSpreadOutline />}
+      />
+      <SideBarMenuItem text='Команда' to='team' icon={<Icon36Users />} />
+    </SidebarBody>
+    <SidebarFooter>
+      <SideBarMenuItem
+        text='Настройки'
+        to='profile'
+        icon={<Icon24GearOutline />}
+      />
+    </SidebarFooter>
+  </SideBar>
+);

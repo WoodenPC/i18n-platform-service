@@ -1,8 +1,17 @@
-import { SplitLayout } from '@vkontakte/vkui';
+import { SplitCol, SplitLayout } from '@vkontakte/vkui';
 import { Outlet } from 'react-router-dom';
+
+import { SidebarMenu } from '@features/navigation/sidebar-menu';
+
+const SIDEBAR_WIDTH = 72;
 
 export const AppLayout = () => (
   <SplitLayout>
-    <Outlet />
+    <SplitCol width={SIDEBAR_WIDTH} maxWidth={SIDEBAR_WIDTH}>
+      <SidebarMenu />
+    </SplitCol>
+    <SplitCol>
+      <Outlet />
+    </SplitCol>
   </SplitLayout>
 );
