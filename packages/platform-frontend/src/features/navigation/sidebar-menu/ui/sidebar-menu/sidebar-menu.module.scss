@@ -9,12 +9,13 @@
   align-items: center;
   height: 72px;
   color: rgb(128, 128, 128);
+  cursor: pointer;
 
   &:hover {
-    background-color: white;
+    background-color: rgb(249, 249, 249);
   }
 
   &[aria-current="page"] {
-    background-color: white;
+    background-color: rgb(249, 249, 249);
   }
 }

@@ -1,0 +1,19 @@
+.userContextMenu {
+  width: 290px;
+}
+
+.teamsListWrapper {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.createNewTeamCell {
+  margin-top: 12px;
+}
+
+.menuCell {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

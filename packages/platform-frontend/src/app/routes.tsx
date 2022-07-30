@@ -65,19 +65,19 @@ export const APP_ROUTES: AppRouteObject[] = [
     subRoutes: [
       { path: '/', element: <MainPage /> },
       {
-        path: '/projects',
+        path: '/teams/:teamId/projects',
         element: <ProjectsPage />,
       },
       {
-        path: '/project/:id',
+        path: '/teams/:teamId/projects/:projectId',
         element: <ProjectPage />,
       },
       {
-        path: '/team',
+        path: '/teams/:teamId',
         element: <TeamPage />,
       },
       {
-        path: 'profile',
+        path: '/profile',
         element: <ProfilePage />,
       },
     ],

@@ -1,7 +1,7 @@
 import { SplitCol, SplitLayout } from '@vkontakte/vkui';
 import { Outlet } from 'react-router-dom';
 
-import { SidebarMenu } from '@features/navigation/sidebar-menu';
+import { SidebarMenu } from '@features/navigation/sidebar-menu/ui/sidebar-menu';
 
 const SIDEBAR_WIDTH = 72;
 
